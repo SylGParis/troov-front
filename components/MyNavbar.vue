@@ -1,13 +1,13 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="info">
-      <b-navbar-brand href="/ObjectScreen">Objets Trouvés</b-navbar-brand>
+      <b-navbar-brand href="/objectScreen">Objets Trouvés</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item href="/">Nouveau</b-nav-item>
+          <b-nav-item href="/addObject">Nouveau</b-nav-item>
           <b-nav-item href="#" disabled>Chercher</b-nav-item>
         </b-navbar-nav>
 
