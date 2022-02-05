@@ -1,15 +1,15 @@
  
  <template>
- <div class="mx-3 d-flex justify-content-center align-items-center">
+ <div class="mx-3 d-flex justify-content-center align-items-center" :key='renderKey'>
   <p v-if="$fetchState.pending">Fetching Objects...</p>
   <p v-else-if="$fetchState.error">An error occurred :(</p>
   <div 
     v-for="obj in objects" 
     v-else
     :key="obj._id"
-    class="mx-2 "
+    class="mx-2 row"
   >
-  <b-col>
+  <!-- <b-col> -->
     
       <!-- Using 'b-coard component' & binding 2 props variables --> 
     <b-card
@@ -19,21 +19,23 @@
       img-top
       tag="article"
       style="max-width: 20rem"
-      class="mb-2 d-inline-flex"
+      class="mb-2"
     >
-      <b-card-text style="height: 5vh">
+      <b-card-text style="height: 10vh">
         {{ obj.desc }}
       </b-card-text>
-       <b-card-text style="height: 5vh">
+       <b-card-text style="height: 10vh">
         {{ obj.found_location }}
       </b-card-text>
       <div class="d-flex justify-content-between align-items-center">
       <b-button pill v-b-popover.hover.top="`Vous pouvez nous contacter ${obj.contact}`" title="Contactez le magasin" variant="outline-success">It is your's</b-button>
-      <BIconXCircle scale="1.5" variant="danger"></BIconXCircle>
+      <b-button pill variant='white' @click="deleteObject(obj._id)">
+        <BIconXCircle  scale="1.5" variant="danger"></BIconXCircle>
+      </b-button>
       </div>
 
     </b-card>
-  </b-col>
+  <!-- </b-col> -->
   </div>
 </div>
 </template>
@@ -50,7 +52,7 @@ export default {
     .then((res)=>res.json())
     .then((res)=> res.objects)
    // .catch( (err)=>console.error(err))
-    console.log('after', this.objects)
+    //console.log('after', this.objects)
  },
   components: {
     BIconXCircle
@@ -59,13 +61,16 @@ export default {
      
     return {
       // data array - empty to be filled with Mongo data now 
-      objects: []
-
+      objects: [],
+      renderKey: 0
     }
   },
   methods: {
+    reRender() {
+       this.renderKey++;
+    },
     typeImage (type){
-      console.log('in type', type)
+      //console.log('in type', type)
       //on selectionne l'image en fonction du type d'objet
       switch (type) {
         case 'Communication': 
@@ -82,7 +87,22 @@ export default {
           return require(`../assets/images/communications.png`);
       }
     },
-    
+     async deleteObject(id) {
+      //on supprime l'objet de la DDB
+      const res =  await fetch (`http://localhost:3000/delete-object/${id}`, {
+        method: 'delete',
+        headers: { 
+        "Access-Control-Allow-Origin": '*',
+        },
+      })
+      .then((res)=>res.json())
+      .then((res)=> console.log('res',res))
+      .catch( (err)=>console.error(err))
+    // on supprime l'objet de la page 
+     const tmp = this.objects.filter(e => e._id !== id)
+     this.objects = [...tmp];
+    }
+
   },
  
 };
