@@ -1,5 +1,6 @@
 import webpack from 'webpack'
 export default {
+  
   //change port 
   server: {
     port: 8000 // default: 3000

@@ -62,6 +62,7 @@
             <b-form-input
               class="m-1"
               placeholder="Mot de passe"
+              type="password"
               id="input-3"
               size="sm"
               v-model="userPassword"
@@ -115,6 +116,7 @@
               placeholder="Mot de passe "
               id="input-5"
               size="sm"
+              type="password"
               v-model="password"
               :state="state"
               trim
@@ -123,7 +125,7 @@
         </b-form-group>
           <b-button variant="success" class="mt-5 mx-auto" @click="signIn">Me connecter</b-button>
         </b-card>
-        <NuxtLink v-if="$loginOk" to="/objectScreen">Home page</NuxtLink>
+        <!-- <transition v-if="loginOk" to="/objectScreen"></transition> -->
   </b-row>
   </b-container>
 </template>
@@ -196,8 +198,8 @@ export default {
         console.log('res',res)
         // si le user a été ajouté => petit popup succès/erreur
         if (res.error[0]==='ok') { 
-          alert('Vous êtes enregistré !!')
-          this.loginOk=true;
+          //alert('Vous êtes enregistré !!')
+          this.$router.push('/objectScreen');
         } else {          
          alert(res.error)
         }})
@@ -221,8 +223,8 @@ export default {
         console.log('res',res)
         // si le user a été ajouté => petit popup succès/erreur
         if (res.error[0]==='ok') { 
-          alert('Vous êtes connecté !!')
-          this.loginOk= true
+         // alert('Vous êtes connecté !!');
+          this.$router.push('/objectScreen');
         } else {          
          alert(res.error)
         }})
