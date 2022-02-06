@@ -1,7 +1,7 @@
 
 <template>
   <div
-    :style="{ backgroundImage: `url(${bgimage})`, backgroundSize: 'cover', backgroundRepeat: 'noRepeat' ,height: '150vh' }" 
+    :style="{ backgroundImage: `url(${bgimage})`, backgroundSize: 'cover' ,height: '100vh' }" 
     class="container-fluid justify-center sm:items-center sm:pt-0 px-0"
   >
     <!-- NavBarb component  -->
@@ -14,7 +14,7 @@
           label-cols-lg="4"
           label="Descrivez l'Objet Trouvé"
           label-size="lg"
-          label-class="font-weight-bold pt-0"
+          label-class="font-weight-bold my-auto pt-0"
           class="mb-0"
         >
           <b-form-group
@@ -23,7 +23,7 @@
             label-for="input-1"
             label-cols-sm="4"
             label-align-sm="right"
-            label-class="font-weight-bold pt-0"
+            label-class="font-weight-bold my-auto pt-0"
             class="m-2"
           >
             <b-form-input
@@ -43,7 +43,7 @@
             label-size="sm"
             label-cols-sm="4"
             label-align-sm="right"
-            label-class="font-weight-bold pt-0"
+            label-class="font-weight-bold my-auto pt-0"
             class="m-2"
           >
             <b-form-select
@@ -61,7 +61,7 @@
             label-cols-sm="4"
             label-align-sm="right"
             label-size="sm"
-            label-class="font-weight-bold pt-0"
+            label-class="font-weight-bold my-auto pt-0"
             class="m-2"
           >
             <b-form-input
@@ -81,7 +81,7 @@
             label-cols-sm="4"
             label-align-sm="right"
             label-size="sm"
-            label-class="font-weight-bold pt-0"
+            label-class="font-weight-bold my-auto pt-0"
             class="m-2"
           >
             <b-form-textarea
@@ -100,7 +100,7 @@
             label-cols-sm="4"
             label-align-sm="right"
             label-size="sm"
-            label-class="font-weight-bold pt-0"
+            label-class="font-weight-bold my-auto pt-0"
             class="m-2"
           >
             <b-form-datepicker
@@ -118,7 +118,7 @@
             label-cols-sm="4"
             label-align-sm="right"
             label-size="sm"
-            label-class="font-weight-bold pt-0"
+            label-class="font-weight-bold my-auto pt-0"
             class="m-2"
           >
             <b-form-input
@@ -131,7 +131,7 @@
               trim
             ></b-form-input>
           </b-form-group>
-        <b-button variant="success">Ajouter l'objet</b-button>
+        <b-button variant="success" @click="addObject">Ajouter l'objet</b-button>
         </b-form-group>
       </b-card>
     </div>
@@ -188,5 +188,37 @@ export default {
       ],
     };
   },
+  methods: {
+    async addObject() {
+      //on ajoute l'objet de la DDB
+      const res =  await fetch (`http://localhost:3000/add-object/`, {
+        method: 'post',
+        headers: { 
+        "Access-Control-Allow-Origin": '*',
+        "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: this.name,
+          type: this.selected,
+          found_location: this.found_location,
+          desc: this.desc,
+          date: this.date,
+          contact: this.contact
+        })
+      })
+      .then((res)=>res.json())
+      .then((res)=> {
+        console.log('res',res)
+        if (res.result===true) { 
+          alert('Ajout Réussi !!')
+        } else { 
+         alert("L'ajout n'a pas marché")
+        }})
+      .catch( (err)=>console.error(err))
+    // si l'objet a été ajouté => petit popup succès/erreur
+
+    //(res===true)? alert('Ajout Réussi !!') : alert("L'ajout n'a pas marché")
+    }
+  }
 };
 </script>

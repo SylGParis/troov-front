@@ -1,30 +1,29 @@
  
  <template>
- <div class="mx-3 d-flex justify-content-center align-items-center" :key='renderKey'>
+ <b-row  class="mx-3 justify-content-center" :key='renderKey'>
   <p v-if="$fetchState.pending">Fetching Objects...</p>
   <p v-else-if="$fetchState.error">An error occurred :(</p>
   <div 
     v-for="obj in objects" 
     v-else
     :key="obj._id"
-    class="mx-2 row"
+    class="mx-2"
   >
-  <!-- <b-col> -->
-    
-      <!-- Using 'b-coard component' & binding 2 props variables --> 
+
+      <!-- Using 'b-card component' & binding 2 props variables --> 
     <b-card
       :title="obj.name"
       :img-src='typeImage(obj.type)'
       img-alt="Image"
       img-top
       tag="article"
-      style="max-width: 20rem"
+      style="width: 15rem"
       class="mb-2"
     >
-      <b-card-text style="height: 10vh">
+      <b-card-text style="height: 9vh">
         {{ obj.desc }}
       </b-card-text>
-       <b-card-text style="height: 10vh">
+       <b-card-text style="height: 9vh">
         {{ obj.found_location }}
       </b-card-text>
       <div class="d-flex justify-content-between align-items-center">
@@ -35,9 +34,9 @@
       </div>
 
     </b-card>
-  <!-- </b-col> -->
+
   </div>
-</div>
+</b-row>
 </template>
 <script>
 import { BIconXCircle } from 'bootstrap-vue'
@@ -66,9 +65,7 @@ export default {
     }
   },
   methods: {
-    reRender() {
-       this.renderKey++;
-    },
+  
     typeImage (type){
       //console.log('in type', type)
       //on selectionne l'image en fonction du type d'objet
