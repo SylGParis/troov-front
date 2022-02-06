@@ -1,10 +1,29 @@
 
 <template>
-  <b-container fluid :style="{backgroundImage:`url(${bgimage})`, height: '100vh', backgroundSize: 'cover'}" class="items-center m-0 px-0 sm:pt-0">
+  <b-container
+    fluid
+    :style="{
+      backgroundImage: `url(${bgimage})`,
+      height: '100vh',
+      backgroundSize: 'cover',
+    }"
+    class="items-center m-0 px-0 sm:pt-0"
+  >
     <!-- NavBarb component  -->
     <MyNavbar />
-  <b-row cols="3" align-h="center" align-v="center" class="m-5" style="height:80vh">
-   <b-card bg-variant="transparent" class='d-flex mx-3 p-1' style="height:30vh">
+    <!-- Sign Up  Card  -->
+    <b-row
+      cols="3"
+      align-h="center"
+      align-v="center"
+      class="m-5"
+      style="height: 80vh"
+    >
+      <b-card
+        bg-variant="transparent"
+        class="d-flex mx-3 p-1"
+        style="height: 30vh"
+      >
         <b-form-group
           label-cols-lg="4"
           label="Sign-Up"
@@ -70,12 +89,19 @@
               trim
             ></b-form-input>
           </b-form-group>
-           
-        </b-form-group>
-        <b-button variant="success" class=" mx-auto" @click="signUp">M'inscrire</b-button>
-         </b-card>
 
-        <b-card bg-variant="transparent" class='d-flex mx-3 p-1' style="height:30vh">
+          <!-- Sign In   Card  -->
+        </b-form-group>
+        <b-button variant="success" class="mx-auto" @click="signUp"
+          >M'inscrire</b-button
+        >
+      </b-card>
+
+      <b-card
+        bg-variant="transparent"
+        class="d-flex mx-3 p-1"
+        style="height: 30vh"
+      >
         <b-form-group
           label-cols-lg="3"
           label="Sign-In"
@@ -123,19 +149,18 @@
             ></b-form-input>
           </b-form-group>
         </b-form-group>
-          <b-button variant="success" class="mt-5 mx-auto" @click="signIn">Me connecter</b-button>
-        </b-card>
-        <!-- <transition v-if="loginOk" to="/objectScreen"></transition> -->
-  </b-row>
+        <b-button variant="success" class="mt-5 mx-auto" @click="signIn"
+          >Me connecter</b-button
+        >
+      </b-card>
+    </b-row>
   </b-container>
 </template>
 <style >
-
 </style>
 <script>
 import bgImg from "../assets/images/troov-1920x600.jpg";
 export default {
-  
   data() {
     return {
       userName: "",
@@ -148,89 +173,84 @@ export default {
     };
   },
   computed: {
-    state () {
+    state() {
       return (
-        (this.userName.length >= 4 ||
+        this.userName.length >= 4 ||
         this.userEmail.length >= 4 ||
-        this.userPassword.length >= 8)
-      ||
-      ( this.email.lentgh >=4 ||
-        this.password.length >=8)
+        this.userPassword.length >= 8 ||
+        this.email.lentgh >= 4 ||
+        this.password.length >= 8
       );
     },
-    //  state () {
-    //   return (
-    //     this.email.lentgh >=4 ||
-    //     this.password.length >=8
-    //   );
-    // },
+
     invalidFeedback() {
       if (
-        (this.userName.length > 0 ||
+        this.userName.length > 0 ||
         this.userEmail.length >= 0 ||
-        this.userPassword.length >= 0 )
-        ||
-        (this.email.length >=0 ||
-        this.password.length >=0 )
-      ){
+        this.userPassword.length >= 0 ||
+        this.email.length >= 0 ||
+        this.password.length >= 0
+      ) {
         return "Entrez au moins 4 caractères.";
       } else {
         return "Tous les champs doivent être remplis.";
       }
-  }},
+    },
+  },
   methods: {
     async signUp() {
       //on envoie les data user au backend
-      const res =  await fetch (`http://localhost:3000/users/sign-up`, {
-        method: 'post',
-        headers: { 
-        "Access-Control-Allow-Origin": '*',
-        "Content-Type": "application/json"
+      const res = await fetch(`http://localhost:3000/users/sign-up`, {
+        method: "post",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           userName: this.userName,
           userEmail: this.userEmail,
-          userPassword: this.userPassword
-        })
+          userPassword: this.userPassword,
+        }),
       })
-      .then((res)=>res.json())
-      .then((res)=> {
-        console.log('res',res)
-        // si le user a été ajouté => petit popup succès/erreur
-        if (res.error[0]==='ok') { 
-          //alert('Vous êtes enregistré !!')
-          this.$router.push('/objectScreen');
-        } else {          
-         alert(res.error)
-        }})
-      .catch( (err)=>console.error(err))
+        .then((res) => res.json())
+        .then((res) => {
+          console.log("res", res);
+          // si le user a été ajouté => petit popup succès/erreur
+          if (res.error[0] === "ok") {
+            //alert('Vous êtes enregistré !!')
+            this.$router.push("/objectScreen");
+          } else {
+            alert(res.error);
+          }
+        })
+        .catch((err) => console.error(err));
     },
     async signIn() {
       //on envoie les data user au backend
-      const res =  await fetch (`http://localhost:3000/users/sign-in`, {
-        method: 'post',
-        headers: { 
-        "Access-Control-Allow-Origin": '*',
-        "Content-Type": "application/json"
+      const res = await fetch(`http://localhost:3000/users/sign-in`, {
+        method: "post",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           userEmail: this.email,
-          userPassword: this.password
-        })
+          userPassword: this.password,
+        }),
       })
-      .then((res)=>res.json())
-      .then((res)=> {
-        console.log('res',res)
-        // si le user a été ajouté => petit popup succès/erreur
-        if (res.error[0]==='ok') { 
-         // alert('Vous êtes connecté !!');
-          this.$router.push('/objectScreen');
-        } else {          
-         alert(res.error)
-        }})
-      .catch( (err)=>console.error(err))
-  
-    }
-  }
+        .then((res) => res.json())
+        .then((res) => {
+          console.log("res", res);
+          // si le user a été ajouté => petit popup succès/erreur
+          if (res.error[0] === "ok") {
+            // alert('Vous êtes connecté !!');
+            this.$router.push("/objectScreen");
+          } else {
+            alert(res.error);
+          }
+        })
+        .catch((err) => console.error(err));
+    },
+  },
 };
 </script>
