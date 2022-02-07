@@ -211,6 +211,7 @@ export default {
         console.log('res',res)
         if (res.result===true) { 
           alert('Ajout Réussi !!')
+          this.$router.push("/objectScreen");
         } else { 
          alert("L'ajout n'a pas marché")
         }})
