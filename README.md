@@ -1,5 +1,14 @@
 # troov-ex
 
+une application NuxtJS(BootstrapVue) web contenant une interface simple qui permet l'authentification et la gestion simple d'un objet.!
+Cette interface contient les pages suivantes:
+●	Connexion/Inscription	
+●	Ajout d'un objet
+●	Liste les objets
+●	Modification / Suppression d'un objet.
+
+le backend est dans https://github.com/SylGParis/troov-back.git
+
 ## Build Setup
 
 ```bash
